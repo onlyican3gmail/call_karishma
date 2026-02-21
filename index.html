@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karry Pulse Pad</title>
+    <title>Karry Hold Pad</title>
     <style>
       :root {
         color-scheme: light;
@@ -96,35 +96,12 @@
         border-color: #ffb6c5;
       }
 
-      .button-wrap {
-        display: grid;
-        gap: 0.85rem;
-      }
-
-      #triggerBtn {
-        width: 100%;
-        border: 1px solid #ff7ea6;
-        border-radius: 16px;
-        padding: 1rem 0.9rem;
-        font-size: 1.15rem;
-        font-weight: 700;
-        letter-spacing: 0.015em;
-        color: #ffffff;
-        background: linear-gradient(140deg, #ff7eb0 0%, #ff5a85 100%);
-        cursor: pointer;
-        transition:
-          transform 0.12s ease,
-          box-shadow 0.12s ease,
-          filter 0.12s ease;
-        box-shadow: 0 10px 20px rgba(255, 90, 133, 0.28);
-      }
-
       #holdBtn {
         width: 100%;
         border: 1px solid #7da6ff;
         border-radius: 16px;
-        padding: 0.95rem 0.9rem;
-        font-size: 1rem;
+        padding: 1rem 0.9rem;
+        font-size: 1.1rem;
         font-weight: 700;
         letter-spacing: 0.01em;
         color: #153a79;
@@ -144,17 +121,14 @@
         box-shadow: 0 12px 24px rgba(86, 126, 243, 0.36);
       }
 
-      #triggerBtn:hover:not(:disabled),
       #holdBtn:hover:not(:disabled) {
         filter: brightness(1.03);
       }
 
-      #triggerBtn:active:not(:disabled),
       #holdBtn:active:not(:disabled) {
         transform: translateY(1px) scale(0.997);
       }
 
-      #triggerBtn:disabled,
       #holdBtn:disabled {
         opacity: 0.55;
         cursor: not-allowed;
@@ -173,7 +147,6 @@
           padding: 1rem;
         }
 
-        #triggerBtn,
         #holdBtn {
           border-radius: 14px;
         }
@@ -182,130 +155,20 @@
   </head>
   <body>
     <main class="card">
-      <h1>Karry Pulse Pad</h1>
-      <p class="subtitle">Cute MQTT remote for your ESP8266</p>
+      <h1>Karry Hold Pad</h1>
+      <p class="subtitle">Press = ON, Release = OFF</p>
 
       <div class="status-row">
         <p class="status-label">Broker status</p>
         <span id="status" class="connecting">Connecting</span>
       </div>
 
-      <div class="button-wrap">
-        <button id="triggerBtn" type="button" disabled>Trigger Once</button>
-        <button id="holdBtn" type="button" disabled>Hold To Keep Trigger On</button>
-      </div>
+      <button id="holdBtn" type="button" disabled>Press and Hold</button>
 
-      <p id="hint" aria-live="polite">Tap once, or hold the second button to keep pulsing.</p>
+      <p id="hint" aria-live="polite">Connecting to MQTT broker...</p>
     </main>
 
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-    <script type="module">
-      const BROKER_URL = "wss://test.mosquitto.org:8081/mqtt";
-      const TOPIC = "karry/esp01/testbutton";
-      const PAYLOAD = "PULSE";
-      const HOLD_INTERVAL_MS = 160;
-
-      const statusEl = document.getElementById("status");
-      const triggerBtn = document.getElementById("triggerBtn");
-      const holdBtn = document.getElementById("holdBtn");
-      const hintEl = document.getElementById("hint");
-
-      let client = null;
-      let holdTimer = null;
-
-      const stopContinuousTrigger = () => {
-        if (holdTimer) {
-          window.clearInterval(holdTimer);
-          holdTimer = null;
-        }
-
-        holdBtn.classList.remove("sending");
-        hintEl.textContent = "Tap once, or hold the second button to keep pulsing.";
-      };
-
-      const setStatus = (text) => {
-        statusEl.textContent = text;
-        statusEl.className = text.toLowerCase();
-
-        const isConnected = text === "Connected";
-        triggerBtn.disabled = !isConnected;
-        holdBtn.disabled = !isConnected;
-
-        if (!isConnected) {
-          stopContinuousTrigger();
-        }
-      };
-
-      const publishPulse = () =>
-        new Promise((resolve) => {
-          if (!client || !client.connected) {
-            resolve(false);
-            return;
-          }
-
-          client.publish(TOPIC, PAYLOAD, { qos: 0, retain: false }, (err) => {
-            resolve(!err);
-          });
-        });
-
-      const startContinuousTrigger = async () => {
-        if (holdTimer || !client?.connected) {
-          return;
-        }
-
-        holdBtn.classList.add("sending");
-        hintEl.textContent = "Sending PULSE repeatedly... release to stop.";
-        await publishPulse();
-        holdTimer = window.setInterval(publishPulse, HOLD_INTERVAL_MS);
-      };
-
-      const connectMqtt = () => {
-        if (!window.mqtt) {
-          setStatus("Disconnected");
-          hintEl.textContent = "MQTT.js could not load.";
-          return;
-        }
-
-        setStatus("Connecting");
-
-        client = window.mqtt.connect(BROKER_URL, {
-          clean: true,
-          reconnectPeriod: 2000,
-          connectTimeout: 30000,
-          clientId: `ghpages_${Math.random().toString(16).slice(2, 10)}`
-        });
-
-        client.on("connect", () => setStatus("Connected"));
-        client.on("reconnect", () => setStatus("Connecting"));
-        client.on("close", () => setStatus("Disconnected"));
-        client.on("offline", () => setStatus("Disconnected"));
-        client.on("error", () => setStatus("Disconnected"));
-      };
-
-      triggerBtn.addEventListener("click", () => {
-        publishPulse();
-      });
-
-      holdBtn.addEventListener("pointerdown", (event) => {
-        if (event.button !== 0) {
-          return;
-        }
-
-        event.preventDefault();
-        startContinuousTrigger();
-      });
-      holdBtn.addEventListener("pointerup", stopContinuousTrigger);
-      holdBtn.addEventListener("pointercancel", stopContinuousTrigger);
-      holdBtn.addEventListener("lostpointercapture", stopContinuousTrigger);
-      window.addEventListener("pointerup", stopContinuousTrigger);
-      window.addEventListener("blur", stopContinuousTrigger);
-
-      window.addEventListener("beforeunload", () => {
-        stopContinuousTrigger();
-        client?.end(true);
-      });
-
-      connectMqtt();
-    </script>
+    <script src="./mqtt-control.js" defer></script>
   </body>
 </html>
