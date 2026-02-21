@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESP8266 MQTT Trigger</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #f3f4f6;
+        color: #111827;
+        padding: 1rem;
+      }
+
+      .card {
+        width: min(560px, 100%);
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 1.25rem;
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
+      }
+
+      h1 {
+        margin: 0 0 0.75rem;
+        font-size: 1.5rem;
+      }
+
+      .status {
+        margin: 0 0 1rem;
+        font-size: 0.95rem;
+      }
+
+      #status {
+        font-weight: 700;
+      }
+
+      #triggerBtn {
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        padding: 1rem;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        color: #ffffff;
+        background: #111827;
+        cursor: pointer;
+      }
+
+      #triggerBtn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+
+      .log {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #f9fafb;
+      }
+
+      .log h2 {
+        margin: 0 0 0.5rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      #logText {
+        margin: 0;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>ESP8266 MQTT Trigger</h1>
+      <p class="status">Status: <span id="status">Connecting</span></p>
+      <button id="triggerBtn" type="button" disabled>TRIGGER</button>
+
+      <section class="log" aria-live="polite">
+        <h2>Last Publish</h2>
+        <p id="logText">No publish yet.</p>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script type="module">
+      const BROKER_URL = "wss://test.mosquitto.org:8081/mqtt";
+      const TOPIC = "karry/esp01/testbutton";
+      const PAYLOAD = "PULSE";
+
+      const statusEl = document.getElementById("status");
+      const triggerBtn = document.getElementById("triggerBtn");
+      const logTextEl = document.getElementById("logText");
+
+      let client = null;
+
+      const setStatus = (text) => {
+        statusEl.textContent = text;
+        triggerBtn.disabled = text !== "Connected";
+      };
+
+      const setLog = (text) => {
+        const timestamp = new Date().toLocaleString();
+        logTextEl.textContent = `${timestamp} | ${text}`;
+      };
+
+      const publishPulse = () => {
+        if (!client || !client.connected) {
+          setLog("Publish skipped: disconnected.");
+          return;
+        }
+
+        client.publish(TOPIC, PAYLOAD, { qos: 0, retain: false }, (err) => {
+          if (err) {
+            setLog(`Publish failed: ${err.message}`);
+            return;
+          }
+          setLog(`Published "${PAYLOAD}" to ${TOPIC}`);
+        });
+      };
+
+      const connectMqtt = () => {
+        if (!window.mqtt) {
+          setStatus("Disconnected");
+          return;
+        }
+
+        setStatus("Connecting");
+
+        client = window.mqtt.connect(BROKER_URL, {
+          clean: true,
+          reconnectPeriod: 2000,
+          connectTimeout: 30000,
+          clientId: `ghpages_${Math.random().toString(16).slice(2, 10)}`
+        });
+
+        client.on("connect", () => {
+          setStatus("Connected");
+        });
+
+        client.on("reconnect", () => {
+          setStatus("Connecting");
+        });
+
+        client.on("close", () => {
+          setStatus("Disconnected");
+        });
+
+        client.on("offline", () => {
+          setStatus("Disconnected");
+        });
+
+        client.on("error", () => {
+          setStatus("Disconnected");
+        });
+      };
+
+      triggerBtn.addEventListener("click", publishPulse);
+      window.addEventListener("beforeunload", () => client?.end(true));
+
+      connectMqtt();
+    </script>
+  </body>
+</html>
