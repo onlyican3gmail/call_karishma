@@ -1,179 +1,206 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karishma's Secret Control</title>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Karishma’s Private Control</title>
 
-    <style>
-      :root {
-        font-family: "Poppins", "Segoe UI", sans-serif;
-        color-scheme: dark;
-      }
+<style>
+:root {
+  font-family: "Poppins", sans-serif;
+  color-scheme: dark;
+}
 
-      * {
-        box-sizing: border-box;
-      }
+* { box-sizing: border-box; }
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: radial-gradient(circle at 20% 20%, #ff6fa5 0%, transparent 40%),
-          radial-gradient(circle at 80% 10%, #ffb3d1 0%, transparent 40%),
-          linear-gradient(160deg, #1a0010 0%, #2b001a 100%);
-        color: #fff;
-      }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 20% 20%, #ff2d75 0%, transparent 40%),
+    radial-gradient(circle at 80% 10%, #ff6fa5 0%, transparent 40%),
+    linear-gradient(160deg, #12000a 0%, #250014 100%);
+  color: #fff;
+}
 
-      .card {
-        width: min(520px, 95%);
-        background: rgba(255, 0, 90, 0.08);
-        backdrop-filter: blur(12px);
-        border-radius: 28px;
-        padding: 1.8rem;
-        border: 1px solid rgba(255, 120, 180, 0.3);
-        box-shadow: 0 20px 50px rgba(255, 0, 120, 0.25);
-        text-align: center;
-      }
+.card {
+  width: min(560px, 95%);
+  background: rgba(255, 0, 80, 0.08);
+  backdrop-filter: blur(18px);
+  border-radius: 30px;
+  padding: 1.8rem;
+  border: 1px solid rgba(255, 120, 180, 0.25);
+  box-shadow: 0 25px 60px rgba(255, 0, 120, 0.3);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
 
-      h1 {
-        margin: 0;
-        font-size: 1.8rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-      }
+/* Heartbeat glow animation */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  15% { transform: scale(1.05); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+  60% { transform: scale(1); }
+}
 
-      .subtitle {
-        margin: 0.5rem 0 1.2rem;
-        font-size: 0.95rem;
-        opacity: 0.8;
-      }
+.card.active {
+  animation: heartbeat 1s infinite;
+}
 
-      .image-placeholder {
-        width: 100%;
-        height: 200px;
-        border-radius: 18px;
-        background: linear-gradient(135deg, #ff3c88, #ff89b5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1.2rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #fff;
-        opacity: 0.7;
-      }
+/* Pulse glow for button */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 15px rgba(255, 0, 100, 0.4); }
+  50% { box-shadow: 0 0 35px rgba(255, 0, 140, 0.9); }
+  100% { box-shadow: 0 0 15px rgba(255, 0, 100, 0.4); }
+}
 
-      .status-row {
-        margin-bottom: 1rem;
-      }
+h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+}
 
-      #status {
-        display: inline-block;
-        padding: 0.4rem 1rem;
-        border-radius: 999px;
-        font-weight: 600;
-        font-size: 0.85rem;
-        background: rgba(255, 255, 255, 0.15);
-        transition: all 0.3s ease;
-      }
+.subtitle {
+  margin: 0.5rem 0 1.2rem;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
 
-      #status.connecting {
-        background: rgba(255, 180, 200, 0.3);
-      }
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
 
-      #status.connected {
-        background: rgba(255, 0, 120, 0.6);
-      }
+.image-placeholder {
+  height: 140px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff3c88, #ff89b5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.7;
+}
 
-      #status.disconnected {
-        background: rgba(120, 0, 40, 0.6);
-      }
+#status {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: rgba(255,255,255,0.15);
+  margin-bottom: 1rem;
+}
 
-      #holdBtn {
-        width: 100%;
-        padding: 1.1rem;
-        border-radius: 20px;
-        border: none;
-        font-size: 1.2rem;
-        font-weight: 700;
-        letter-spacing: 1px;
-        cursor: pointer;
-        background: linear-gradient(140deg, #ff2f7f, #ff66a3);
-        color: #fff;
-        box-shadow: 0 15px 30px rgba(255, 0, 120, 0.35);
-        transition: all 0.15s ease;
-      }
+#status.connecting { background: rgba(255, 120, 160, 0.4); }
+#status.connected { background: rgba(255, 0, 120, 0.7); }
+#status.disconnected { background: rgba(120, 0, 40, 0.7); }
 
-      #holdBtn:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 18px 35px rgba(255, 0, 120, 0.5);
-      }
+#holdBtn {
+  width: 100%;
+  padding: 1.2rem;
+  border-radius: 22px;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(140deg, #ff2f7f, #ff66a3);
+  color: #fff;
+  transition: all 0.15s ease;
+}
 
-      #holdBtn:active:not(:disabled) {
-        transform: scale(0.98);
-      }
+#holdBtn:hover:not(:disabled) {
+  transform: translateY(-3px);
+}
 
-      #holdBtn.sending {
-        background: linear-gradient(140deg, #ff0055, #ff3388);
-        box-shadow: 0 18px 40px rgba(255, 0, 100, 0.6);
-      }
+#holdBtn.sending {
+  background: linear-gradient(140deg, #ff0055, #ff3388);
+  animation: pulseGlow 1s infinite;
+}
 
-      #holdBtn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
+#holdBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
-      #hint {
-        margin-top: 1rem;
-        font-size: 0.9rem;
-        opacity: 0.85;
-        min-height: 1.2rem;
-      }
+#hint {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  min-height: 1.2rem;
+}
 
-      .footer-text {
-        margin-top: 1.5rem;
-        font-size: 0.8rem;
-        opacity: 0.6;
-      }
+.footer-text {
+  margin-top: 1.5rem;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+</style>
+</head>
 
-      @media (max-width: 420px) {
-        .card {
-          padding: 1.2rem;
-        }
-      }
-    </style>
-  </head>
+<body>
 
-  <body>
-    <main class="card">
-      <h1>Karishma’s Secret Control 💕</h1>
-      <p class="subtitle">Hold it… and make me feel it 💓</p>
+<main class="card" id="mainCard">
+  <h1>Karishma’s Private Control 💕</h1>
+  <p class="subtitle">Hold it… and feel my heartbeat race 💓</p>
 
-      <div class="image-placeholder">
-        ✨ Add Karishma’s photo here ✨
-      </div>
+  <div class="gallery">
+    <div class="image-placeholder">Add Photo 1</div>
+    <div class="image-placeholder">Add Photo 2</div>
+    <div class="image-placeholder">Add Photo 3</div>
+    <div class="image-placeholder">Add Photo 4</div>
+  </div>
 
-      <div class="status-row">
-        <span id="status" class="connecting">Waking it up...</span>
-      </div>
+  <span id="status" class="connecting">Waking up...</span>
 
-      <button id="holdBtn" type="button" disabled>
-        Touch & Hold 💗
-      </button>
+  <button id="holdBtn" type="button" disabled>
+    Touch & Hold Me 💗
+  </button>
 
-      <p id="hint" aria-live="polite">
-        Waiting for you…
-      </p>
+  <p id="hint">Waiting for your touch…</p>
 
-      <div class="footer-text">
-        Made for Karishma’s private moments 💋
-      </div>
-    </main>
+  <div class="footer-text">
+    Made for Karishma’s most intimate moments 💋
+  </div>
+</main>
 
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-    <script src="./mqtt-control.js" defer></script>
-  </body>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script src="./mqtt-control.js" defer></script>
+
+<script>
+const holdBtn = document.getElementById("holdBtn");
+const card = document.getElementById("mainCard");
+
+/* Sync heartbeat animation with hold state */
+holdBtn.addEventListener("mousedown", () => {
+  card.classList.add("active");
+});
+
+holdBtn.addEventListener("mouseup", () => {
+  card.classList.remove("active");
+});
+
+holdBtn.addEventListener("mouseleave", () => {
+  card.classList.remove("active");
+});
+
+/* Mobile support */
+holdBtn.addEventListener("touchstart", () => {
+  card.classList.add("active");
+});
+
+holdBtn.addEventListener("touchend", () => {
+  card.classList.remove("active");
+});
+</script>
+
+</body>
 </html>
