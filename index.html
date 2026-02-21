@@ -46,95 +46,105 @@
       background: rgba(200, 0, 80, 0.09);
       backdrop-filter: blur(20px);
       border-radius: 36px;
-      padding: 2.2rem 1.8rem;
+      padding: 0; /* removed padding so hero can bleed to edges */
       border: 1px solid rgba(255, 80, 140, 0.3);
       box-shadow: 0 30px 80px rgba(200, 0, 80, 0.45);
-      text-align: center;
+      overflow: hidden;
       position: relative;
+    }
+    /* HERO IMAGE - the main sexy focal point */
+    .hero {
+      position: relative;
+      height: 320px;
+      width: 100%;
       overflow: hidden;
-      transition: all 0.4s ease;
     }
-    /* Intense heartbeat when held */
-    @keyframes intenseHeartbeat {
-      0%   { transform: scale(1) rotate(0deg); }
-      10%  { transform: scale(1.06) rotate(0.5deg); }
-      20%  { transform: scale(1) rotate(0deg); }
-      35%  { transform: scale(1.09) rotate(-0.4deg); }
-      50%  { transform: scale(1) rotate(0deg); }
-      70%  { transform: scale(1.07) rotate(0.3deg); }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-    .card.active {
-      animation: intenseHeartbeat 0.9s infinite ease-in-out;
-      box-shadow: 0 40px 100px rgba(255, 51, 153, 0.7);
-    }
-    /* Button pulse when sending/held */
-    @keyframes deepPulse {
-      0%   { box-shadow: 0 0 20px rgba(255,51,153,0.5); transform: scale(1); }
-      50%  { box-shadow: 0 0 60px rgba(255,0,102,0.95), 0 0 100px rgba(255,51,153,0.6); transform: scale(1.06); }
-      100% { box-shadow: 0 0 20px rgba(255,51,153,0.5); transform: scale(1); }
-    }
-    h1 {
-      margin: 0 0 0.4rem;
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(3.2rem, 9vw, 5.8rem);
-      color: #fff;
-      text-shadow: 0 6px 20px rgba(255,0,100,0.8);
-      letter-spacing: -2px;
-    }
-    .subtitle {
-      margin: 0 0 1.6rem;
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: #ffd1e8;
-      opacity: 0.95;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 1rem;
-      margin: 1.5rem 0 2.2rem;
-    }
-    .photo {
-      height: 180px;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 2px solid rgba(255, 102, 153, 0.4);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-      transition: all 0.35s ease;
-      background: linear-gradient(135deg, #ff3c88, #ff70b2);
-    }
-    .photo:hover {
-      transform: scale(1.08) rotate(1.5deg);
-      border-color: #ff3399;
-      box-shadow: 0 20px 50px rgba(255,51,153,0.6);
-    }
-    .photo img {
+    .hero img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(13,0,8,0.85) 85%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: absolute;
+      bottom: 28px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      padding: 0 1.8rem;
+    }
+    .hero-content h1 {
+      margin: 0;
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(3.2rem, 9vw, 5.8rem);
+      color: #fff;
+      text-shadow: 0 6px 20px rgba(255,0,100,0.9);
+      letter-spacing: -2px;
+    }
+    .hero-content .subtitle {
+      margin: 6px 0 0;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #ffd1e8;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    /* Intense heartbeat on the whole card when held */
+    @keyframes intenseHeartbeat {
+      0%   { transform: scale(1) rotate(0deg); }
+      10%  { transform: scale(1.04) rotate(0.4deg); }
+      20%  { transform: scale(1) rotate(0deg); }
+      35%  { transform: scale(1.07) rotate(-0.4deg); }
+      50%  { transform: scale(1) rotate(0deg); }
+      70%  { transform: scale(1.05) rotate(0.3deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .card.active {
+      animation: intenseHeartbeat 0.85s infinite ease-in-out;
+      box-shadow: 0 40px 100px rgba(255, 51, 153, 0.75);
+    }
+
+    /* Button pulse when held */
+    @keyframes deepPulse {
+      0%   { box-shadow: 0 0 20px rgba(255,51,153,0.5); transform: scale(1); }
+      50%  { box-shadow: 0 0 70px rgba(255,0,102,0.95), 0 0 110px rgba(255,51,153,0.7); transform: scale(1.07); }
+      100% { box-shadow: 0 0 20px rgba(255,51,153,0.5); transform: scale(1); }
+    }
+
+    .content {
+      padding: 1.8rem 1.8rem 2rem;
+      text-align: center;
+    }
+
     #status {
       display: inline-block;
-      padding: 0.5rem 1.2rem;
+      padding: 0.5rem 1.3rem;
       border-radius: 999px;
       font-weight: 700;
       font-size: 0.95rem;
       background: rgba(255,255,255,0.12);
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.2rem;
       backdrop-filter: blur(6px);
     }
     #status.connecting { background: rgba(255,140,180,0.4); color: #ffe6f2; }
     #status.connected  { background: rgba(255,0,120,0.75); color: white; box-shadow: 0 0 20px #ff3399; }
     #status.disconnected { background: rgba(120,0,50,0.6); color: #ffccdd; }
+
     #holdBtn {
       width: 100%;
       max-width: 420px;
       margin: 0 auto 1.4rem;
-      padding: 1.4rem 1rem;
+      padding: 1.45rem 1rem;
       border: none;
       border-radius: 999px;
-      font-size: 1.45rem;
+      font-size: 1.48rem;
       font-weight: 700;
       color: white;
       background: linear-gradient(135deg, #ff1a75, #c40052);
@@ -150,8 +160,8 @@
     #holdBtn:active, #holdBtn.sending {
       transform: translateY(2px) scale(0.96);
       background: linear-gradient(135deg, #d4005e, #ff0066);
-      animation: deepPulse 0.8s infinite;
-      box-shadow: 0 0 70px rgba(255,0,102,0.9);
+      animation: deepPulse 0.75s infinite;
+      box-shadow: 0 0 80px rgba(255,0,102,0.95);
     }
     #holdBtn:disabled {
       opacity: 0.45;
@@ -159,71 +169,111 @@
       transform: none;
       box-shadow: none;
     }
+
     #hint {
-      margin: 0.6rem 0 1.2rem;
+      margin: 0.6rem 0 1.6rem;
       font-size: 1.05rem;
       color: #ffb3d9;
       font-style: italic;
       min-height: 1.6rem;
     }
+
+    /* TEASER GALLERY - elegant bottom row */
+    .teasers {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding: 0 1.8rem 2rem;
+      scrollbar-width: none;
+    }
+    .teasers::-webkit-scrollbar { display: none; }
+    .teaser {
+      flex: 0 0 148px;
+      height: 198px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 102, 153, 0.35);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+      transition: all 0.4s ease;
+      background: linear-gradient(135deg, #ff3c88, #ff70b2);
+    }
+    .teaser:hover {
+      transform: scale(1.12) rotate(2deg);
+      border-color: #ff3399;
+      box-shadow: 0 22px 50px rgba(255,51,153,0.65);
+    }
+    .teaser img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .footer-text {
-      margin-top: 1.8rem;
+      padding: 0 1.8rem 1.8rem;
       font-size: 0.85rem;
       opacity: 0.65;
       font-style: italic;
+      text-align: center;
     }
-    @media (max-width: 500px) {
-      .card { padding: 1.8rem 1.3rem; border-radius: 28px; }
-      h1 { font-size: 4rem; }
-      .gallery { gap: 0.8rem; }
-      .photo { height: 150px; }
+
+    @media (max-width: 520px) {
+      .hero { height: 260px; }
+      .hero-content { bottom: 22px; }
+      .teaser { flex: 0 0 130px; height: 174px; }
     }
   </style>
 </head>
 <body>
 <main class="card" id="mainCard">
-  <h1>Karishma’s Wet Little Secret 💦</h1>
-  <p class="subtitle">Hold tight… make me drip and beg for you 😈💋</p>
 
-  <div class="gallery">
-    <!-- Replace these src with your own intimate/sexy photos -->
-    <div class="photo"><img src="https://via.placeholder.com/300x180/ff0066/000?text=Karishma+Teasing+1" alt="Your sexy pose 1"></div>
-    <div class="photo"><img src="https://via.placeholder.com/300x180/c40052/000?text=Karishma+Spread+2" alt="Your naughty angle 2"></div>
-    <div class="photo"><img src="https://via.placeholder.com/300x180/ff3399/000?text=Karishma+Lips+3" alt="Your teasing lips 3"></div>
-    <div class="photo"><img src="https://via.placeholder.com/300x180/ff1a75/000?text=Karishma+Toy+4" alt="Vibe inside me 4"></div>
-    <div class="photo"><img src="https://via.placeholder.com/300x180/ff4da6/000?text=Karishma+Moaning+5" alt="Your pleasure face 5"></div>
-    <div class="photo"><img src="https://via.placeholder.com/300x180/d4005e/000?text=Karishma+Wet+6" alt="Dripping close-up 6"></div>
+  <!-- HERO IMAGE - big, sexy, intentional focal point -->
+  <div class="hero">
+    <img src="https://via.placeholder.com/800x600/ff0066/ffffff?text=Karishma+—+My+Wet+Secret" alt="Karishma teasing with her toy">
+    <div class="hero-content">
+      <h1>Karishma’s Wet Little Secret 💦</h1>
+      <p class="subtitle">Hold tight… make me drip and beg for you 😈💋</p>
+    </div>
   </div>
 
-  <span id="status" class="connecting">Craving your touch…</span>
+  <div class="content">
+    <span id="status" class="connecting">Craving your touch…</span>
 
-  <button id="holdBtn" type="button" disabled>
-    Grip & Hold to Fuck Me Deep 🍆💖
-  </button>
+    <button id="holdBtn" type="button" disabled>
+      Grip & Hold to Fuck Me Deep 🍆💖
+    </button>
 
-  <p id="hint">Slide in… make my pussy pulse for you… 😏</p>
+    <p id="hint">Slide in… make my pussy pulse for you… 😏</p>
+  </div>
+
+  <!-- Elegant teaser gallery - 5 intimate shots -->
+  <div class="teasers">
+    <div class="teaser"><img src="https://via.placeholder.com/300x400/c40052/000?text=Deep+Inside+1" alt="Toy deep inside me"></div>
+    <div class="teaser"><img src="https://via.placeholder.com/300x400/ff3399/000?text=Moaning+2" alt="My pleasure face"></div>
+    <div class="teaser"><img src="https://via.placeholder.com/300x400/ff1a75/000?text=Lips+&+Toy+3" alt="Lips around it"></div>
+    <div class="teaser"><img src="https://via.placeholder.com/300x400/ff4da6/000?text=Close+Up+4" alt="Wet close-up"></div>
+    <div class="teaser"><img src="https://via.placeholder.com/300x400/d4005e/000?text=Begging+5" alt="Begging for more"></div>
+  </div>
 
   <div class="footer-text">
     Karishma’s most depraved little toy — only for you 💋🔥
   </div>
+
 </main>
 
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 <script src="./mqtt-control.js" defer></script>
 <script>
-// Heartbeat + pulse sync when held (works with pointer/mouse or touch)
+// Heartbeat + pulse sync (pointer + touch)
 const holdBtn = document.getElementById("holdBtn");
 const card    = document.getElementById("mainCard");
 
 function activate() { card.classList.add("active"); }
 function deactivate() { card.classList.remove("active"); }
 
-// Desktop
 holdBtn.addEventListener("pointerdown", activate);
 holdBtn.addEventListener("pointerup",   deactivate);
 holdBtn.addEventListener("pointerleave",deactivate);
 
-// Better mobile/touch support
 holdBtn.addEventListener("touchstart", (e) => { e.preventDefault(); activate(); });
 holdBtn.addEventListener("touchend",   (e) => { e.preventDefault(); deactivate(); });
 holdBtn.addEventListener("touchcancel",deactivate);
