@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Karry Hold Pad</title>
+    <title>Karishma's Secret Control</title>
+
     <style>
       :root {
-        color-scheme: light;
-        font-family: "Nunito", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-family: "Poppins", "Segoe UI", sans-serif;
+        color-scheme: dark;
       }
 
       * {
@@ -20,152 +21,156 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 1rem 1rem 2rem;
-        color: #182235;
-        background:
-          radial-gradient(circle at 15% 20%, #fff3d2 0%, transparent 42%),
-          radial-gradient(circle at 85% 12%, #d7f5ff 0%, transparent 38%),
-          linear-gradient(165deg, #ffe6ef 0%, #eaf0ff 45%, #e1fff4 100%);
+        background: radial-gradient(circle at 20% 20%, #ff6fa5 0%, transparent 40%),
+          radial-gradient(circle at 80% 10%, #ffb3d1 0%, transparent 40%),
+          linear-gradient(160deg, #1a0010 0%, #2b001a 100%);
+        color: #fff;
       }
 
       .card {
-        width: min(560px, 100%);
-        background: rgba(255, 255, 255, 0.88);
-        border: 1px solid rgba(255, 255, 255, 0.9);
+        width: min(520px, 95%);
+        background: rgba(255, 0, 90, 0.08);
+        backdrop-filter: blur(12px);
         border-radius: 28px;
-        padding: 1.4rem;
-        box-shadow:
-          0 16px 40px rgba(97, 92, 164, 0.2),
-          inset 0 1px 0 rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(7px);
+        padding: 1.8rem;
+        border: 1px solid rgba(255, 120, 180, 0.3);
+        box-shadow: 0 20px 50px rgba(255, 0, 120, 0.25);
+        text-align: center;
       }
 
       h1 {
         margin: 0;
-        font-size: clamp(1.35rem, 3.6vw, 1.75rem);
-        line-height: 1.2;
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
       }
 
       .subtitle {
-        margin: 0.4rem 0 1rem;
+        margin: 0.5rem 0 1.2rem;
         font-size: 0.95rem;
-        color: #4f5d75;
+        opacity: 0.8;
+      }
+
+      .image-placeholder {
+        width: 100%;
+        height: 200px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #ff3c88, #ff89b5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #fff;
+        opacity: 0.7;
       }
 
       .status-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.8rem;
         margin-bottom: 1rem;
       }
 
-      .status-label {
-        margin: 0;
-        font-size: 0.9rem;
-      }
-
       #status {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 126px;
-        font-size: 0.82rem;
-        font-weight: 800;
+        display: inline-block;
+        padding: 0.4rem 1rem;
         border-radius: 999px;
-        padding: 0.38rem 0.78rem;
-        border: 1px solid transparent;
-        transition: all 0.2s ease;
+        font-weight: 600;
+        font-size: 0.85rem;
+        background: rgba(255, 255, 255, 0.15);
+        transition: all 0.3s ease;
       }
 
       #status.connecting {
-        color: #7b5712;
-        background: #fff4d1;
-        border-color: #ffd16a;
+        background: rgba(255, 180, 200, 0.3);
       }
 
       #status.connected {
-        color: #0f6b48;
-        background: #dffbe8;
-        border-color: #90e4ba;
+        background: rgba(255, 0, 120, 0.6);
       }
 
       #status.disconnected {
-        color: #8b2f3d;
-        background: #ffe6ea;
-        border-color: #ffb6c5;
+        background: rgba(120, 0, 40, 0.6);
       }
 
       #holdBtn {
         width: 100%;
-        border: 1px solid #7da6ff;
-        border-radius: 16px;
-        padding: 1rem 0.9rem;
-        font-size: 1.1rem;
+        padding: 1.1rem;
+        border-radius: 20px;
+        border: none;
+        font-size: 1.2rem;
         font-weight: 700;
-        letter-spacing: 0.01em;
-        color: #153a79;
-        background: linear-gradient(140deg, #dff1ff 0%, #cfe1ff 100%);
+        letter-spacing: 1px;
         cursor: pointer;
-        transition:
-          transform 0.12s ease,
-          box-shadow 0.12s ease,
-          filter 0.12s ease;
-        box-shadow: 0 10px 20px rgba(116, 153, 255, 0.2);
-      }
-
-      #holdBtn.sending {
-        background: linear-gradient(140deg, #8bb3ff 0%, #6e98ff 100%);
-        color: #ffffff;
-        border-color: #5b8bff;
-        box-shadow: 0 12px 24px rgba(86, 126, 243, 0.36);
+        background: linear-gradient(140deg, #ff2f7f, #ff66a3);
+        color: #fff;
+        box-shadow: 0 15px 30px rgba(255, 0, 120, 0.35);
+        transition: all 0.15s ease;
       }
 
       #holdBtn:hover:not(:disabled) {
-        filter: brightness(1.03);
+        transform: translateY(-2px);
+        box-shadow: 0 18px 35px rgba(255, 0, 120, 0.5);
       }
 
       #holdBtn:active:not(:disabled) {
-        transform: translateY(1px) scale(0.997);
+        transform: scale(0.98);
+      }
+
+      #holdBtn.sending {
+        background: linear-gradient(140deg, #ff0055, #ff3388);
+        box-shadow: 0 18px 40px rgba(255, 0, 100, 0.6);
       }
 
       #holdBtn:disabled {
-        opacity: 0.55;
+        opacity: 0.5;
         cursor: not-allowed;
       }
 
       #hint {
-        margin: 0.9rem 0 0;
+        margin-top: 1rem;
         font-size: 0.9rem;
-        color: #55657f;
-        min-height: 1.3rem;
+        opacity: 0.85;
+        min-height: 1.2rem;
       }
 
-      @media (max-width: 430px) {
-        .card {
-          border-radius: 22px;
-          padding: 1rem;
-        }
+      .footer-text {
+        margin-top: 1.5rem;
+        font-size: 0.8rem;
+        opacity: 0.6;
+      }
 
-        #holdBtn {
-          border-radius: 14px;
+      @media (max-width: 420px) {
+        .card {
+          padding: 1.2rem;
         }
       }
     </style>
   </head>
+
   <body>
     <main class="card">
-      <h1>Karry Hold Pad</h1>
-      <p class="subtitle">Press = ON, Release = OFF</p>
+      <h1>Karishma’s Secret Control 💕</h1>
+      <p class="subtitle">Hold it… and make me feel it 💓</p>
 
-      <div class="status-row">
-        <p class="status-label">Broker status</p>
-        <span id="status" class="connecting">Connecting</span>
+      <div class="image-placeholder">
+        ✨ Add Karishma’s photo here ✨
       </div>
 
-      <button id="holdBtn" type="button" disabled>Press and Hold</button>
+      <div class="status-row">
+        <span id="status" class="connecting">Waking it up...</span>
+      </div>
 
-      <p id="hint" aria-live="polite">Connecting to MQTT broker...</p>
+      <button id="holdBtn" type="button" disabled>
+        Touch & Hold 💗
+      </button>
+
+      <p id="hint" aria-live="polite">
+        Waiting for you…
+      </p>
+
+      <div class="footer-text">
+        Made for Karishma’s private moments 💋
+      </div>
     </main>
 
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
