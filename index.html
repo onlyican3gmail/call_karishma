@@ -1,282 +1,198 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Karishma’s Secret Pleasure Remote 💦</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --hot-pink: #ff0066;
-      --deep-pink: #c40052;
-      --glow-pink: #ff3399;
-      --dark-bg: #0d0008;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(circle at 15% 25%, #ff1a75 0%, transparent 45%),
-        radial-gradient(circle at 85% 15%, #ff4da6 0%, transparent 50%),
-        linear-gradient(155deg, var(--dark-bg) 0%, #1a0012 100%);
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-    }
-    body::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(255,51,153,0.08) 0%, transparent 70%);
-      pointer-events: none;
-      animation: slowBreath 18s infinite ease-in-out;
-    }
-    @keyframes slowBreath {
-      0%,100% { opacity: 0.4; transform: scale(1); }
-      50%     { opacity: 0.9; transform: scale(1.15); }
-    }
-    .card {
-      width: min(620px, 96%);
-      background: rgba(200, 0, 80, 0.09);
-      backdrop-filter: blur(20px);
-      border-radius: 36px;
-      padding: 0; /* removed padding so hero can bleed to edges */
-      border: 1px solid rgba(255, 80, 140, 0.3);
-      box-shadow: 0 30px 80px rgba(200, 0, 80, 0.45);
-      overflow: hidden;
-      position: relative;
-    }
-    /* HERO IMAGE - the main sexy focal point */
-    .hero {
-      position: relative;
-      height: 320px;
-      width: 100%;
-      overflow: hidden;
-    }
-    .hero img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 40%, rgba(13,0,8,0.85) 85%);
-      pointer-events: none;
-    }
-    .hero-content {
-      position: absolute;
-      bottom: 28px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      padding: 0 1.8rem;
-    }
-    .hero-content h1 {
-      margin: 0;
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(3.2rem, 9vw, 5.8rem);
-      color: #fff;
-      text-shadow: 0 6px 20px rgba(255,0,100,0.9);
-      letter-spacing: -2px;
-    }
-    .hero-content .subtitle {
-      margin: 6px 0 0;
-      font-size: 1.15rem;
-      font-weight: 500;
-      color: #ffd1e8;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Karishma’s Private Control</title>
 
-    /* Intense heartbeat on the whole card when held */
-    @keyframes intenseHeartbeat {
-      0%   { transform: scale(1) rotate(0deg); }
-      10%  { transform: scale(1.04) rotate(0.4deg); }
-      20%  { transform: scale(1) rotate(0deg); }
-      35%  { transform: scale(1.07) rotate(-0.4deg); }
-      50%  { transform: scale(1) rotate(0deg); }
-      70%  { transform: scale(1.05) rotate(0.3deg); }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-    .card.active {
-      animation: intenseHeartbeat 0.85s infinite ease-in-out;
-      box-shadow: 0 40px 100px rgba(255, 51, 153, 0.75);
-    }
+<style>
+:root {
+  font-family: "Poppins", sans-serif;
+  color-scheme: dark;
+}
 
-    /* Button pulse when held */
-    @keyframes deepPulse {
-      0%   { box-shadow: 0 0 20px rgba(255,51,153,0.5); transform: scale(1); }
-      50%  { box-shadow: 0 0 70px rgba(255,0,102,0.95), 0 0 110px rgba(255,51,153,0.7); transform: scale(1.07); }
-      100% { box-shadow: 0 0 20px rgba(255,51,153,0.5); transform: scale(1); }
-    }
+* { box-sizing: border-box; }
 
-    .content {
-      padding: 1.8rem 1.8rem 2rem;
-      text-align: center;
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #0f0008 0%, #220012 100%);
+  color: #fff;
+  overflow-x: hidden;
+}
 
-    #status {
-      display: inline-block;
-      padding: 0.5rem 1.3rem;
-      border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      background: rgba(255,255,255,0.12);
-      margin-bottom: 1.2rem;
-      backdrop-filter: blur(6px);
-    }
-    #status.connecting { background: rgba(255,140,180,0.4); color: #ffe6f2; }
-    #status.connected  { background: rgba(255,0,120,0.75); color: white; box-shadow: 0 0 20px #ff3399; }
-    #status.disconnected { background: rgba(120,0,50,0.6); color: #ffccdd; }
+/* Background side images */
+.side-image {
+  position: fixed;
+  top: 0;
+  width: 35%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+  filter: blur(8px) brightness(0.7);
+  z-index: 0;
+}
 
-    #holdBtn {
-      width: 100%;
-      max-width: 420px;
-      margin: 0 auto 1.4rem;
-      padding: 1.45rem 1rem;
-      border: none;
-      border-radius: 999px;
-      font-size: 1.48rem;
-      font-weight: 700;
-      color: white;
-      background: linear-gradient(135deg, #ff1a75, #c40052);
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 16px 40px rgba(200,0,80,0.5);
-      user-select: none;
-    }
-    #holdBtn:hover:not(:disabled) {
-      transform: translateY(-4px) scale(1.03);
-      box-shadow: 0 24px 60px rgba(255,51,153,0.7);
-    }
-    #holdBtn:active, #holdBtn.sending {
-      transform: translateY(2px) scale(0.96);
-      background: linear-gradient(135deg, #d4005e, #ff0066);
-      animation: deepPulse 0.75s infinite;
-      box-shadow: 0 0 80px rgba(255,0,102,0.95);
-    }
-    #holdBtn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
+.side-left { left: 0; }
+.side-right { right: 0; }
 
-    #hint {
-      margin: 0.6rem 0 1.6rem;
-      font-size: 1.05rem;
-      color: #ffb3d9;
-      font-style: italic;
-      min-height: 1.6rem;
-    }
+.card {
+  position: relative;
+  z-index: 2;
+  width: min(520px, 92%);
+  background: rgba(255, 0, 80, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 32px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 120, 180, 0.25);
+  box-shadow: 0 25px 60px rgba(255, 0, 120, 0.3);
+  overflow: hidden;
+  text-align: center;
+}
 
-    /* TEASER GALLERY - elegant bottom row */
-    .teasers {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      padding: 0 1.8rem 2rem;
-      scrollbar-width: none;
-    }
-    .teasers::-webkit-scrollbar { display: none; }
-    .teaser {
-      flex: 0 0 148px;
-      height: 198px;
-      border-radius: 22px;
-      overflow: hidden;
-      border: 2px solid rgba(255, 102, 153, 0.35);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-      transition: all 0.4s ease;
-      background: linear-gradient(135deg, #ff3c88, #ff70b2);
-    }
-    .teaser:hover {
-      transform: scale(1.12) rotate(2deg);
-      border-color: #ff3399;
-      box-shadow: 0 22px 50px rgba(255,51,153,0.65);
-    }
-    .teaser img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+/* Hero Image */
+.hero-image {
+  width: 100%;
+  height: 240px;
+  border-radius: 22px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  box-shadow: 0 15px 40px rgba(255, 0, 120, 0.4);
+}
 
-    .footer-text {
-      padding: 0 1.8rem 1.8rem;
-      font-size: 0.85rem;
-      opacity: 0.65;
-      font-style: italic;
-      text-align: center;
-    }
+/* Subtle bottom image overlay */
+.bottom-image {
+  position: absolute;
+  bottom: -40px;
+  right: -30px;
+  width: 160px;
+  height: 200px;
+  object-fit: cover;
+  opacity: 0.3;
+  filter: blur(2px);
+  transform: rotate(-10deg);
+  border-radius: 20px;
+  pointer-events: none;
+}
 
-    @media (max-width: 520px) {
-      .hero { height: 260px; }
-      .hero-content { bottom: 22px; }
-      .teaser { flex: 0 0 130px; height: 174px; }
-    }
-  </style>
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  20% { transform: scale(1.05); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.08); }
+  80% { transform: scale(1); }
+}
+
+.card.active {
+  animation: heartbeat 1s infinite;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 15px rgba(255, 0, 100, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(255, 0, 140, 0.9); }
+  100% { box-shadow: 0 0 15px rgba(255, 0, 100, 0.4); }
+}
+
+h1 {
+  margin: 0.3rem 0;
+  font-size: 1.8rem;
+}
+
+.subtitle {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+#status {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: rgba(255,255,255,0.15);
+  margin-bottom: 1rem;
+}
+
+#status.connecting { background: rgba(255, 120, 160, 0.4); }
+#status.connected { background: rgba(255, 0, 120, 0.7); }
+#status.disconnected { background: rgba(120, 0, 40, 0.7); }
+
+#holdBtn {
+  width: 100%;
+  padding: 1.2rem;
+  border-radius: 24px;
+  border: none;
+  font-size: 1.3rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(140deg, #ff2f7f, #ff66a3);
+  color: #fff;
+  transition: all 0.15s ease;
+}
+
+#holdBtn.sending {
+  background: linear-gradient(140deg, #ff0055, #ff3388);
+  animation: pulseGlow 1s infinite;
+}
+
+#holdBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#hint {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  min-height: 1.2rem;
+}
+</style>
 </head>
+
 <body>
+
+<!-- Background sexy images -->
+<img src="YOUR_LEFT_IMAGE.jpg" class="side-image side-left">
+<img src="YOUR_RIGHT_IMAGE.jpg" class="side-image side-right">
+
 <main class="card" id="mainCard">
 
-  <!-- HERO IMAGE - big, sexy, intentional focal point -->
-  <div class="hero">
-    <img src="https://via.placeholder.com/800x600/ff0066/ffffff?text=Karishma+—+My+Wet+Secret" alt="Karishma teasing with her toy">
-    <div class="hero-content">
-      <h1>Karishma’s Wet Little Secret 💦</h1>
-      <p class="subtitle">Hold tight… make me drip and beg for you 😈💋</p>
-    </div>
-  </div>
+  <!-- Main dominant sexy image -->
+  <img src="YOUR_MAIN_IMAGE.jpg" class="hero-image">
 
-  <div class="content">
-    <span id="status" class="connecting">Craving your touch…</span>
+  <h1>Karishma’s Private Control 💕</h1>
+  <p class="subtitle">Hold it… and feel me respond 💓</p>
 
-    <button id="holdBtn" type="button" disabled>
-      Grip & Hold to Fuck Me Deep 🍆💖
-    </button>
+  <span id="status" class="connecting">Waking up...</span>
 
-    <p id="hint">Slide in… make my pussy pulse for you… 😏</p>
-  </div>
+  <button id="holdBtn" type="button" disabled>
+    Touch & Hold Me 💗
+  </button>
 
-  <!-- Elegant teaser gallery - 5 intimate shots -->
-  <div class="teasers">
-    <div class="teaser"><img src="https://via.placeholder.com/300x400/c40052/000?text=Deep+Inside+1" alt="Toy deep inside me"></div>
-    <div class="teaser"><img src="https://via.placeholder.com/300x400/ff3399/000?text=Moaning+2" alt="My pleasure face"></div>
-    <div class="teaser"><img src="https://via.placeholder.com/300x400/ff1a75/000?text=Lips+&+Toy+3" alt="Lips around it"></div>
-    <div class="teaser"><img src="https://via.placeholder.com/300x400/ff4da6/000?text=Close+Up+4" alt="Wet close-up"></div>
-    <div class="teaser"><img src="https://via.placeholder.com/300x400/d4005e/000?text=Begging+5" alt="Begging for more"></div>
-  </div>
+  <p id="hint">Waiting for you…</p>
 
-  <div class="footer-text">
-    Karishma’s most depraved little toy — only for you 💋🔥
-  </div>
+  <!-- Subtle accent image -->
+  <img src="YOUR_ACCENT_IMAGE.jpg" class="bottom-image">
 
 </main>
 
 <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 <script src="./mqtt-control.js" defer></script>
+
 <script>
-// Heartbeat + pulse sync (pointer + touch)
 const holdBtn = document.getElementById("holdBtn");
-const card    = document.getElementById("mainCard");
+const card = document.getElementById("mainCard");
 
-function activate() { card.classList.add("active"); }
-function deactivate() { card.classList.remove("active"); }
-
-holdBtn.addEventListener("pointerdown", activate);
-holdBtn.addEventListener("pointerup",   deactivate);
-holdBtn.addEventListener("pointerleave",deactivate);
-
-holdBtn.addEventListener("touchstart", (e) => { e.preventDefault(); activate(); });
-holdBtn.addEventListener("touchend",   (e) => { e.preventDefault(); deactivate(); });
-holdBtn.addEventListener("touchcancel",deactivate);
+holdBtn.addEventListener("mousedown", () => card.classList.add("active"));
+holdBtn.addEventListener("mouseup", () => card.classList.remove("active"));
+holdBtn.addEventListener("mouseleave", () => card.classList.remove("active"));
+holdBtn.addEventListener("touchstart", () => card.classList.add("active"));
+holdBtn.addEventListener("touchend", () => card.classList.remove("active"));
 </script>
+
 </body>
 </html>
